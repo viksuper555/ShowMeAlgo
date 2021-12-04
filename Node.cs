@@ -2,9 +2,6 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ShowMeAlgo
 {
@@ -27,10 +24,22 @@ namespace ShowMeAlgo
         public int Id { get; set; }
         public string Name { get; set; }
         //public List<Edge> Predecessors { get; set; } = new List<Edge>();
-        public List<Edge> Successors { get; set; } = new List<Edge>();
+        public List<Edge> Successors { get; set; } = new();
         public bool Visited { get; set; }
         public int? CostToStart { get; set; }
-        public Color FillColor { get; set; } = Color.LightSkyBlue;
+
+        public Color FillColor
+        {
+            get
+            {
+                if (CostToStart == 0)
+                    return Color.LightCoral;
+                else if (CostToStart != null) 
+                    return Color.Gold;
+                return Color.LightSkyBlue;
+            }
+        }
+
         public Node()
         {
             Id = Form1.NextId;
@@ -42,7 +51,7 @@ namespace ShowMeAlgo
             Name = name;
         }
 
-        public void Paint(Graphics graphics, bool calculated)
+        public void Paint(Graphics graphics, bool finished)
         {
 
             using (SolidBrush brush = new(FillColor))
@@ -56,7 +65,7 @@ namespace ShowMeAlgo
             {
                 int middle = Position.X - (int)(Radius / (3 - Math.Floor(Math.Log10(Id))));
                 graphics.DrawString(Name, font, brush, middle, Position.Y - Radius/3);
-                if(calculated)
+                if(finished || CostToStart.HasValue)
                     graphics.DrawString(CostToStart.Print(), font, brush, Position.X - Radius / 2, Position.Y + Radius);
             }
 
@@ -101,13 +110,10 @@ namespace ShowMeAlgo
         }
         public static Point GetPointOnCircle(Point p1, Point p2)
         {
-            Point Pointref = Point.Subtract(p2, new Size(p1));
-            double degrees = Math.Atan2(Pointref.Y, Pointref.X);
+            Point pointref = Point.Subtract(p2, new Size(p1));
+            double degrees = Math.Atan2(pointref.Y, pointref.X);
             double cosx1 = Math.Cos(degrees);
             double siny1 = Math.Sin(degrees);
-
-            double cosx2 = Math.Cos(degrees + Math.PI);
-            double siny2 = Math.Sin(degrees + Math.PI);
 
             return new Point((int)(cosx1 * (float)(Radius) + (float)p1.X), (int)(siny1 * (float)(Radius) + (float)p1.Y));
         }
