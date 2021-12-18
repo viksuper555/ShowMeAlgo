@@ -6,19 +6,20 @@ using System.Windows.Forms;
 
 namespace ShowMeAlgo
 {
-    public partial class Form1 : Form
+    public partial class DijkstraVisualiser : Form
     {
         private bool _captureMouse;
         private Point _captureLocation;
         private Point _currentLocation;
-        
+        private Point _hoverLocation;
+        private static readonly int XOffset = 50;
         public bool Started { get; set; }
         public bool Finished { get; set; }
         public static int NextId { get; set; }
         public Node SelectedNode { get; set; }
         private List<Node> Nodes { get; set; } = new();
         public Dijkstra Dijkstra { get; set; } = new();
-        public Form1()
+        public DijkstraVisualiser()
         {
             InitializeComponent();
             SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.OptimizedDoubleBuffer, true);
@@ -42,7 +43,11 @@ namespace ShowMeAlgo
         private void Form1_MouseMove(object sender, MouseEventArgs e)
         {
             if (!_captureMouse)
+            {
+                _hoverLocation = e.Location;
                 return;
+            }
+
 
             _currentLocation = e.Location;
             Invalidate();
@@ -104,19 +109,6 @@ namespace ShowMeAlgo
 
         }
 
-        private void btRun_Click(object sender, EventArgs e)
-        {
-            //Reset state
-            foreach (var node in Nodes)
-            {
-                node.Visited = false;
-                node.CostToStart = null;
-            }
-
-            Finished = true;
-            Invalidate();
-        }
-
         private void btNext_Click(object sender, EventArgs e)
         {
             if (SelectedNode == null)
@@ -151,7 +143,70 @@ namespace ShowMeAlgo
         private void btRestart_Click(object sender, EventArgs e)
         {
             Nodes = new List<Node>();
+            NextId = 0;
             btClear_Click(sender, e);
+        }
+
+        private void Form1_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Delete)
+            {
+                for (int i = Nodes.Count()-1; i >= 0; i--)
+                {
+                    if (Nodes[i].Contains(_hoverLocation))
+                        Nodes.RemoveAt(i);
+                }
+            }
+            Invalidate();
+        }
+
+        private void btGenerate_Click(object sender, EventArgs e)
+        {
+            var form = new GenerateForm();
+            Random rnd = new Random();
+            if (form.ShowDialog() == DialogResult.OK)
+            {
+                int nodeCount = form.NodeCount;
+                int edgeDepth = form.EdgeDepth;
+                int maxWeight = form.MaxEdgeWeight;
+                var nodes = new Dictionary<string, Node>();
+                int xMax = Width - 10;
+                int yMax = Height - 30;
+
+                int curX = XOffset, curY = 100;
+
+                NextId = 0;
+                for(int i = 1; i <= nodeCount; i++)
+                {
+                    NextId++;
+                    nodes.Add(i.ToString(), new Point(curX, curY + i/2*10 + (i % 2 == 0 ? Node.Radius * 4 : 0)));
+
+                    curX += Node.Radius * 6;
+                    if(curX >= xMax)
+                    {
+                        curX = XOffset;
+                        curY += Node.Radius * 6;
+                    }
+                }
+
+                //Edge creation done by partially using the Fisher–Yates shuffle
+                for (int i = nodeCount; i > 0; i--)
+                {
+                    for(int n = 0; n < edgeDepth; n++)
+                    {
+                        int j = rnd.Next(1, nodeCount);
+                        int weight = rnd.Next(1, maxWeight);
+
+                        if (i != j)
+                            nodes.Connect(i.ToString(), j.ToString(), weight);                        
+                    }
+                    
+                }
+
+                var nodelist = new List<Node>(nodes.Values);
+                Nodes = nodelist;
+            }
+            Invalidate();
         }
     }
 }

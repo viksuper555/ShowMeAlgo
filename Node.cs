@@ -42,7 +42,7 @@ namespace ShowMeAlgo
 
         public Node()
         {
-            Id = Form1.NextId;
+            Id = DijkstraVisualiser.NextId;
             Name = Id.ToString();
         }
 
@@ -120,9 +120,12 @@ namespace ShowMeAlgo
     }
     public static class NodeHelper
     {
-        public static void Add(this Dictionary<string, Node> dict, string nodename)
+        public static void Add(this Dictionary<string, Node> dict, string nodename, Point? position = null)
         {
-            dict.Add(nodename, new Node(nodename));
+            Node node = new(nodename);
+            if (position != null)
+                node.Position = position.Value;
+            dict.Add(nodename, node);
         }
         public static void Connect(this Dictionary<string, Node> dict, string from, string to, int cost = 1)
         {

@@ -1,7 +1,7 @@
 ﻿
 namespace ShowMeAlgo
 {
-    partial class Form1
+    partial class DijkstraVisualiser
     {
         /// <summary>
         ///  Required designer variable.
@@ -29,20 +29,22 @@ namespace ShowMeAlgo
         /// </summary>
         private void InitializeComponent()
         {
-            this.btRun = new System.Windows.Forms.Button();
+            this.btRestart = new System.Windows.Forms.Button();
             this.btNext = new System.Windows.Forms.Button();
             this.btClear = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
+            this.btGenerate = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
-            // btRun
+            // btRestart
             // 
-            this.btRun.Location = new System.Drawing.Point(59, 41);
-            this.btRun.Name = "btRun";
-            this.btRun.Size = new System.Drawing.Size(89, 23);
-            this.btRun.TabIndex = 0;
-            this.btRun.Text = "Run Dijkstra";
-            this.btRun.UseVisualStyleBackColor = true;
-            this.btRun.Click += new System.EventHandler(this.btRun_Click);
+            this.btRestart.Location = new System.Drawing.Point(78, 41);
+            this.btRestart.Name = "btRestart";
+            this.btRestart.Size = new System.Drawing.Size(89, 23);
+            this.btRestart.TabIndex = 0;
+            this.btRestart.Text = "Restart";
+            this.btRestart.UseVisualStyleBackColor = true;
+            this.btRestart.Click += new System.EventHandler(this.btRestart_Click);
             // 
             // btNext
             // 
@@ -60,32 +62,59 @@ namespace ShowMeAlgo
             this.btClear.Name = "btClear";
             this.btClear.Size = new System.Drawing.Size(75, 23);
             this.btClear.TabIndex = 2;
-            this.btClear.Text = "Restart";
+            this.btClear.Text = "Clear";
             this.btClear.UseVisualStyleBackColor = true;
             this.btClear.Click += new System.EventHandler(this.btClear_Click);
             // 
-            // Form1
+            // label1
+            // 
+            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(704, 437);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(118, 15);
+            this.label1.TabIndex = 3;
+            this.label1.Text = "Made by viksuper555";
+            // 
+            // btGenerate
+            // 
+            this.btGenerate.Location = new System.Drawing.Point(335, 41);
+            this.btGenerate.Name = "btGenerate";
+            this.btGenerate.Size = new System.Drawing.Size(94, 23);
+            this.btGenerate.TabIndex = 4;
+            this.btGenerate.Text = "GenerateGraph";
+            this.btGenerate.UseVisualStyleBackColor = true;
+            this.btGenerate.Click += new System.EventHandler(this.btGenerate_Click);
+            // 
+            // DijkstraVisualiser
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(834, 461);
+            this.Controls.Add(this.btGenerate);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.btClear);
             this.Controls.Add(this.btNext);
-            this.Controls.Add(this.btRun);
-            this.Name = "Form1";
-            this.Text = "Form1";
+            this.Controls.Add(this.btRestart);
+            this.KeyPreview = true;
+            this.Name = "DijkstraVisualiser";
+            this.Text = "Dijkstra Visualiser";
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Form1_KeyDown);
             this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseDown);
             this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseMove);
             this.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseUp);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
 
-        private System.Windows.Forms.Button btRun;
+        private System.Windows.Forms.Button btRestart;
         private System.Windows.Forms.Button btNext;
         private System.Windows.Forms.Button btClear;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button btGenerate;
     }
 }
 

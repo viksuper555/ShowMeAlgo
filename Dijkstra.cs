@@ -74,7 +74,7 @@ namespace ShowMeAlgo
                 }
             }
             node.Visited = true;
-            return true;
+            return PrioQueue.Any();
         }
     }
 }
