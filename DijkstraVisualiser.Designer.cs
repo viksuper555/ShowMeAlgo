@@ -38,9 +38,10 @@ namespace ShowMeAlgo
             // 
             // btRestart
             // 
-            this.btRestart.Location = new System.Drawing.Point(78, 41);
+            this.btRestart.Location = new System.Drawing.Point(111, 68);
+            this.btRestart.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btRestart.Name = "btRestart";
-            this.btRestart.Size = new System.Drawing.Size(89, 23);
+            this.btRestart.Size = new System.Drawing.Size(127, 38);
             this.btRestart.TabIndex = 0;
             this.btRestart.Text = "Restart";
             this.btRestart.UseVisualStyleBackColor = true;
@@ -48,9 +49,10 @@ namespace ShowMeAlgo
             // 
             // btNext
             // 
-            this.btNext.Location = new System.Drawing.Point(254, 41);
+            this.btNext.Location = new System.Drawing.Point(363, 68);
+            this.btNext.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btNext.Name = "btNext";
-            this.btNext.Size = new System.Drawing.Size(75, 23);
+            this.btNext.Size = new System.Drawing.Size(107, 38);
             this.btNext.TabIndex = 1;
             this.btNext.Text = "Next step";
             this.btNext.UseVisualStyleBackColor = true;
@@ -58,9 +60,10 @@ namespace ShowMeAlgo
             // 
             // btClear
             // 
-            this.btClear.Location = new System.Drawing.Point(173, 41);
+            this.btClear.Location = new System.Drawing.Point(247, 68);
+            this.btClear.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btClear.Name = "btClear";
-            this.btClear.Size = new System.Drawing.Size(75, 23);
+            this.btClear.Size = new System.Drawing.Size(107, 38);
             this.btClear.TabIndex = 2;
             this.btClear.Text = "Clear";
             this.btClear.UseVisualStyleBackColor = true;
@@ -70,17 +73,19 @@ namespace ShowMeAlgo
             // 
             this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(704, 437);
+            this.label1.Location = new System.Drawing.Point(1006, 728);
+            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(118, 15);
+            this.label1.Size = new System.Drawing.Size(183, 25);
             this.label1.TabIndex = 3;
             this.label1.Text = "Made by viksuper555";
             // 
             // btGenerate
             // 
-            this.btGenerate.Location = new System.Drawing.Point(335, 41);
+            this.btGenerate.Location = new System.Drawing.Point(479, 68);
+            this.btGenerate.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btGenerate.Name = "btGenerate";
-            this.btGenerate.Size = new System.Drawing.Size(94, 23);
+            this.btGenerate.Size = new System.Drawing.Size(141, 38);
             this.btGenerate.TabIndex = 4;
             this.btGenerate.Text = "GenerateGraph";
             this.btGenerate.UseVisualStyleBackColor = true;
@@ -88,15 +93,16 @@ namespace ShowMeAlgo
             // 
             // DijkstraVisualiser
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(834, 461);
+            this.ClientSize = new System.Drawing.Size(1191, 768);
             this.Controls.Add(this.btGenerate);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.btClear);
             this.Controls.Add(this.btNext);
             this.Controls.Add(this.btRestart);
             this.KeyPreview = true;
+            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "DijkstraVisualiser";
             this.Text = "Dijkstra Visualiser";
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Form1_KeyDown);
