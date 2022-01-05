@@ -1,7 +1,7 @@
 ﻿
 namespace ShowMeAlgo
 {
-    partial class DijkstraVisualiser
+    partial class AlgorithmVisualiser
     {
         /// <summary>
         ///  Required designer variable.
@@ -34,6 +34,8 @@ namespace ShowMeAlgo
             this.btClear = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.btGenerate = new System.Windows.Forms.Button();
+            this.btSwitchAlgorithm = new System.Windows.Forms.Button();
+            this.labelCurrentAlgo = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // btRestart
@@ -91,11 +93,34 @@ namespace ShowMeAlgo
             this.btGenerate.UseVisualStyleBackColor = true;
             this.btGenerate.Click += new System.EventHandler(this.btGenerate_Click);
             // 
-            // DijkstraVisualiser
+            // btSwitchAlgorithm
+            // 
+            this.btSwitchAlgorithm.AutoSize = true;
+            this.btSwitchAlgorithm.Location = new System.Drawing.Point(628, 68);
+            this.btSwitchAlgorithm.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.btSwitchAlgorithm.Name = "btSwitchAlgorithm";
+            this.btSwitchAlgorithm.Size = new System.Drawing.Size(164, 38);
+            this.btSwitchAlgorithm.TabIndex = 4;
+            this.btSwitchAlgorithm.Text = "Change algorithm";
+            this.btSwitchAlgorithm.UseVisualStyleBackColor = true;
+            this.btSwitchAlgorithm.Click += new System.EventHandler(this.btSwitchAlgorithm_Click);
+            // 
+            // labelCurrentAlgo
+            // 
+            this.labelCurrentAlgo.AutoSize = true;
+            this.labelCurrentAlgo.Location = new System.Drawing.Point(799, 75);
+            this.labelCurrentAlgo.Name = "labelCurrentAlgo";
+            this.labelCurrentAlgo.Size = new System.Drawing.Size(71, 25);
+            this.labelCurrentAlgo.TabIndex = 5;
+            this.labelCurrentAlgo.Text = "Dijkstra";
+            // 
+            // AlgorithmVisualiser
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1191, 768);
+            this.Controls.Add(this.labelCurrentAlgo);
+            this.Controls.Add(this.btSwitchAlgorithm);
             this.Controls.Add(this.btGenerate);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.btClear);
@@ -103,8 +128,8 @@ namespace ShowMeAlgo
             this.Controls.Add(this.btRestart);
             this.KeyPreview = true;
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.Name = "DijkstraVisualiser";
-            this.Text = "Dijkstra Visualiser";
+            this.Name = "AlgorithmVisualiser";
+            this.Text = "Algorithm Visualiser";
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Form1_KeyDown);
             this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseDown);
             this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseMove);
@@ -121,6 +146,8 @@ namespace ShowMeAlgo
         private System.Windows.Forms.Button btClear;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button btGenerate;
+        private System.Windows.Forms.Button btSwitchAlgorithm;
+        private System.Windows.Forms.Label labelCurrentAlgo;
     }
 }
 

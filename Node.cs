@@ -8,12 +8,13 @@ namespace ShowMeAlgo
     public class Edge
     {
         public Node Node { get; set; }
-        public int Cost { get; set; }
-
-        public Edge(Node node, int cost = 1)
+        public double Cost { get; set; }
+        public double Heuristic { get; set; }
+        public Edge(Node node, double cost = 1, double heuristic = 0)
         {
             Node = node;
             Cost = cost;
+            Heuristic = heuristic;
         }
     }
 
@@ -26,15 +27,13 @@ namespace ShowMeAlgo
         //public List<Edge> Predecessors { get; set; } = new List<Edge>();
         public List<Edge> Successors { get; set; } = new();
         public bool Visited { get; set; }
-        public int? CostToStart { get; set; }
+        public double? CostToStart { get; set; }
 
         public Color FillColor
         {
             get
             {
-                if (CostToStart == 0)
-                    return Color.LightCoral;
-                else if (CostToStart != null) 
+                if (CostToStart != null) 
                     return Color.Gold;
                 return Color.LightSkyBlue;
             }
@@ -42,7 +41,7 @@ namespace ShowMeAlgo
 
         public Node()
         {
-            Id = DijkstraVisualiser.NextId;
+            Id = AlgorithmVisualiser.NextId;
             Name = Id.ToString();
         }
 
@@ -51,10 +50,10 @@ namespace ShowMeAlgo
             Name = name;
         }
 
-        public void Paint(Graphics graphics, bool finished)
+        public void Paint(Graphics graphics, bool finished, Color? fillColor = null)
         {
 
-            using (SolidBrush brush = new(FillColor))
+            using (SolidBrush brush = new(fillColor ?? FillColor))
                 graphics.FillEllipse(brush, Position.X - Radius, Position.Y - Radius, 2 * Radius, 2 * Radius);
 
             using (Pen pen = new(Color.Black, 2))
@@ -133,7 +132,7 @@ namespace ShowMeAlgo
             //dict[to].Predecessors.Add(new Edge(dict[from], cost));
         }
 
-        public static string Print(this int? n)
+        public static string Print(this double? n)
         {
             return n.HasValue ? n.ToString() : "∞";
         }

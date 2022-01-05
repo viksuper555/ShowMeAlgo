@@ -3,9 +3,26 @@ using System.Linq;
 
 namespace ShowMeAlgo
 {
-    public class Dijkstra
+    public class Dijkstra : IAlgorithm
     {
         public List<Node> PrioQueue { get; set; } = new();
+        public AlgorithmType Type { get => AlgorithmType.Dijkstra; }
+
+        public void AddNode(Node node)
+        {
+            PrioQueue.Add(node);
+        }
+
+        public void Connect(Node first, Node second)
+        {
+            var existing = first.Successors
+                            .FirstOrDefault(x => x.Node.Equals(second));
+            if (existing != null)
+                existing.Cost++;
+            else
+                first.Successors.Add(new(second));
+        }
+
         // public void DijkstraSearch(Node start)
         // {
         //     start.CostToStart = 0;
@@ -43,9 +60,9 @@ namespace ShowMeAlgo
         //     start.CostToStart = 0;
         //     PrioQueue.Add(start);
         // }
-        
+
         /// <summary>
-        /// 
+        /// ;
         /// </summary>
         /// <returns>True if there is a next step.</returns>
         public bool NextStep() 
@@ -76,5 +93,6 @@ namespace ShowMeAlgo
             node.Visited = true;
             return PrioQueue.Any();
         }
+
     }
 }

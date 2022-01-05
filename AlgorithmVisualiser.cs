@@ -6,7 +6,7 @@ using System.Windows.Forms;
 
 namespace ShowMeAlgo;
 
-public partial class DijkstraVisualiser : Form
+public partial class AlgorithmVisualiser : Form
 {
     private bool _captureMouse;
     private Point _captureLocation;
@@ -16,10 +16,11 @@ public partial class DijkstraVisualiser : Form
     public bool Started { get; set; }
     public bool Finished { get; set; }
     public static int NextId { get; set; }
-    public Node SelectedNode { get; set; }
+    public Node StartNode { get; set; }
+    public Node EndNode { get; set; }
     private List<Node> Nodes { get; set; } = new();
-    public Dijkstra Dijkstra { get; set; } = new();
-    public DijkstraVisualiser()
+    public IAlgorithm Algorithm { get; set; } = new Dijkstra();
+    public AlgorithmVisualiser()
     {
         InitializeComponent();
         SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.OptimizedDoubleBuffer, true);
@@ -28,10 +29,15 @@ public partial class DijkstraVisualiser : Form
     {
         foreach (var node in Nodes)
             node.Paint(e.Graphics, Finished);
+        StartNode?.Paint(e.Graphics, Finished, Color.LightCoral);
+        EndNode?.Paint(e.Graphics, Finished, Color.Purple);
 
         using Pen pen = new(Color.DarkGray, 3);
         if (_captureMouse && !_currentLocation.IsEmpty)
-            e.Graphics.DrawLine(pen, Node.GetPointOnCircle(_captureLocation, _currentLocation), _currentLocation);
+        {
+            var circlePoint = Node.GetPointOnCircle(_captureLocation, _currentLocation);
+            e.Graphics.DrawLine(pen, circlePoint, _currentLocation);
+        }
     }
     private void Form1_MouseDown(object sender, MouseEventArgs e)
     {
@@ -74,29 +80,42 @@ public partial class DijkstraVisualiser : Form
                     var capture = Nodes.Find(x => x.Contains(_captureLocation));
                     var current = Nodes.Find(x => x.Contains(_currentLocation));
                     if (capture != null && current != null && capture != current)
-                    {
-                        var existing = capture.Successors
-                            .FirstOrDefault(x => x.Node.Equals(current));
-                        if (existing != null)
-                            existing.Cost++;
-                        else
-                            capture.Successors.Add(new(current));
-                    }
+                        Algorithm.Connect(capture, current);
 
                     break;
                 }
             case MouseButtons.Middle:
                 {
-                    SelectedNode = Nodes.Find(x => x.Contains(_captureLocation));
-                    if (SelectedNode == null)
-                        return;
-                    foreach (var node in Nodes)
+                    var selectedNode = Nodes.Find(x => x.Contains(_captureLocation));
+                    if (selectedNode == null)
                     {
-                        node.CostToStart = null;
-                        SelectedNode.Visited = false;
+                        if (StartNode != null)
+                        { 
+                            StartNode.CostToStart = null;
+                            StartNode.Visited = false;
+                        }
+                        StartNode = null;
+                        EndNode = null;
+                        break;
                     }
-                    SelectedNode.CostToStart = 0;
-                    SelectedNode.Visited = true;
+
+                    if (StartNode != null && Algorithm.Type == AlgorithmType.AStar)
+                    {
+                        EndNode = selectedNode;
+                    }
+                    else
+                    {
+                        foreach (var node in Nodes)
+                        {
+                            node.CostToStart = null;
+                            node.Visited = false;
+                        }
+
+                        StartNode = selectedNode;
+                        StartNode.CostToStart = 0;
+                        StartNode.Visited = true;
+                    }
+
                     break;
                 }
         }
@@ -111,26 +130,30 @@ public partial class DijkstraVisualiser : Form
 
     private void btNext_Click(object sender, EventArgs e)
     {
-        if (SelectedNode == null)
+        if (StartNode == null)
         {
-            MessageBox.Show("Please select a node using the mouse scroll button.", "No node selected.",
+            MessageBox.Show("Please select a starting node using the mouse scroll button.", "No node selected.",
                 MessageBoxButtons.OK, MessageBoxIcon.Warning);
             return;
+        }
+        else if(EndNode == null && Algorithm.Type == AlgorithmType.AStar)
+        {
+
         }
 
         if (!Started)
         {
-            Dijkstra.PrioQueue.Add(SelectedNode);
+            Algorithm.AddNode(StartNode);
             Started = true;
         }
 
-        Finished = !Dijkstra.NextStep();
+        Finished = !Algorithm.NextStep();
         Invalidate();
     }
 
     private void btClear_Click(object sender, EventArgs e)
     {
-        SelectedNode = null;
+        StartNode = null;
         foreach (var node in Nodes)
         {
             node.Visited = false;
@@ -206,5 +229,11 @@ public partial class DijkstraVisualiser : Form
             Nodes = nodelist;
         }
         Invalidate();
+    }
+
+    private void btSwitchAlgorithm_Click(object sender, EventArgs e)
+    {
+        Algorithm = Algorithm.Type == AlgorithmType.Dijkstra ? new AStar() : new Dijkstra();
+        labelCurrentAlgo.Text = $"{Algorithm.Name}";
     }
 }
