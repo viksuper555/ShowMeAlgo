@@ -14,6 +14,8 @@ namespace ShowMeAlgo
     }
     public interface IAlgorithm
     {
+        public Node Start { get; set; }
+
         public AlgorithmType Type { get; }
         public string Name { get => Type.ToString(); }
         public bool NextStep();
@@ -21,5 +23,8 @@ namespace ShowMeAlgo
         public void AddNode(Node node);
 
         public void Connect(Node first, Node second);
+
+        public void Clear();
+        public string Result();
     }
 }

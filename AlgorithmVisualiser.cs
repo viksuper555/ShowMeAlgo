@@ -101,6 +101,8 @@ public partial class AlgorithmVisualiser : Form
 
                     if (StartNode != null && Algorithm.Type == AlgorithmType.AStar)
                     {
+                        if (selectedNode == StartNode)
+                            break;
                         EndNode = selectedNode;
                     }
                     else
@@ -132,28 +134,38 @@ public partial class AlgorithmVisualiser : Form
     {
         if (StartNode == null)
         {
-            MessageBox.Show("Please select a starting node using the mouse scroll button.", "No node selected.",
+            MessageBox.Show("Please select a start node using the mouse scroll button.", "No node selected.",
                 MessageBoxButtons.OK, MessageBoxIcon.Warning);
             return;
         }
         else if(EndNode == null && Algorithm.Type == AlgorithmType.AStar)
         {
-
+            MessageBox.Show("Please select a finish node using the mouse scroll button.", "No node selected.",
+                MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            return;
         }
 
         if (!Started)
         {
             Algorithm.AddNode(StartNode);
             Started = true;
+            Algorithm.Start = StartNode;
+            if(Algorithm.Type == AlgorithmType.AStar)
+                ((AStar)Algorithm).Finish = EndNode;
         }
 
         Finished = !Algorithm.NextStep();
+        if (Finished)
+            MessageBox.Show(Algorithm.Result(), "Finished!");
         Invalidate();
     }
 
     private void btClear_Click(object sender, EventArgs e)
     {
+        Algorithm.Clear();
+
         StartNode = null;
+        EndNode = null;
         foreach (var node in Nodes)
         {
             node.Visited = false;
@@ -165,6 +177,8 @@ public partial class AlgorithmVisualiser : Form
     }
     private void btRestart_Click(object sender, EventArgs e)
     {
+        Algorithm.Clear();
+
         Nodes = new List<Node>();
         NextId = 0;
         btClear_Click(sender, e);

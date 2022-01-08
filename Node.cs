@@ -24,7 +24,6 @@ namespace ShowMeAlgo
         public Point Position { get; set; }
         public int Id { get; set; }
         public string Name { get; set; }
-        //public List<Edge> Predecessors { get; set; } = new List<Edge>();
         public List<Edge> Successors { get; set; } = new();
         public bool Visited { get; set; }
         public double? CostToStart { get; set; }

@@ -11,58 +11,45 @@ namespace ShowMeAlgo
 	{
 		public PriorityQueue<Node, double> PrioQueue { get; set; } = new();
 		public HashSet<Node> Visited { get; set; } = new();
+        public Node Start { get; set; }
         public Node Finish { get; set; }
-        public AlgorithmType Type { get => AlgorithmType.AStar; }
 
-        public void AStarSearch()
-        {
-			while (PrioQueue.Count > 0)
-			{
-				var node = PrioQueue.Dequeue();
-
-				if (node == Finish)
-					return;
-
-				Visited.Add(node);
-
-				foreach (var successor in node.Successors)
-				{
-					if (Visited.Any(n => n == successor.Node))
-						continue;
-
-					PrioQueue.Enqueue(successor.Node, node.CostToStart.Value + successor.Heuristic);
-					
-					
-					////It's already in the active list, but that's OK, maybe this new tile has a better value (e.g. We might zigzag earlier but this is now straighter). 
-					//if (PrioQueue(x => x.X == walkableTile.X && x.Y == walkableTile.Y))
-					//{
-					//var existingTile = PrioQueue.First(x => x.X == walkableTile.X && x.Y == walkableTile.Y);
-					//if (existingTile.CostDistance > node.CostDistance)
-					//{
-					//	PrioQueue.Remove(existingTile);
-					//	PrioQueue.Add(walkableTile);
-					//}
-					//}
-					//else
-					//{
-					//	PrioQueue.Add(walkableTile);
-					//}
-
-				}
-			}
-
-			Console.WriteLine("No Path Found!");
-		}
+		public AlgorithmType Type { get => AlgorithmType.AStar; }
 
         public void AddNode(Node node)
         {
 			PrioQueue.Enqueue(node, 0);
 		}
 
-        public bool NextStep()
+		/// <summary>
+		/// </summary>
+		/// <returns>True if there is a next step.</returns>
+		public bool NextStep()
         {
-			throw new NotImplementedException();
-        }
+			if (PrioQueue == null || PrioQueue.Count <= 0)
+				return false;
+
+			var node = PrioQueue.Dequeue();
+
+			if (node == Finish)
+				return false;
+
+			Visited.Add(node);
+
+			foreach (var successor in node.Successors)
+			{
+				if (Visited.Contains(successor.Node))
+					continue;
+
+				var sNode = successor.Node;
+				sNode.CostToStart = node.CostToStart + successor.Cost;
+
+				double heuristic = CalculateCost(sNode, Finish);
+				PrioQueue.Enqueue(sNode, node.CostToStart.Value + heuristic);
+			}
+
+			return PrioQueue.Count > 0;
+		}
 
         public void Connect(Node first, Node second)
         {
@@ -77,5 +64,14 @@ namespace ShowMeAlgo
 
         public static double CalculateCost(Node first, Node second) =>
             Math.Round(Math.Sqrt(Math.Pow(first.Position.X - second.Position.X, 2) + Math.Pow(first.Position.Y - second.Position.Y, 2)),2);
+
+        public void Clear()
+        {
+			Visited.Clear();
+			PrioQueue.Clear();
+			Finish = null;
+        }
+
+        public string Result() => $"The distance from City {Start.Id} to City {Finish.Id} is {Finish.CostToStart} km!";
     }
 }
