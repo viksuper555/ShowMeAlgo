@@ -42,7 +42,7 @@ namespace ShowMeAlgo
 					continue;
 
 				var sNode = successor.Node;
-				sNode.CostToStart = node.CostToStart + successor.Cost;
+				sNode.CostToStart = Math.Round((double)(node.CostToStart + successor.Cost), 2);
 
 				double heuristic = CalculateCost(sNode, Finish);
 				PrioQueue.Enqueue(sNode, node.CostToStart.Value + heuristic);
