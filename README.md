@@ -1,5 +1,6 @@
 # ShowMeAlgo
-Visualisation of Dijkstra algorithm using WinForms
+Visualisation of Dijkstra and A* algorithms using WinForms
+Generation of a random graph
 
 You can add nodes and weighted directed edges. 
 Then you can run the algroithm step by step and see the state after each step.
